@@ -26,7 +26,7 @@ def distance(a, b, n):
     return int((ax-bx)**2 + (ay-by)**2)
 
 
-#to memorize, if is needed tunel between two fields- firstly I'll run DFS alg. to find all connected components
+# to memorize, if is needed tunel between two fields- firstly I'll run DFS alg. to find all connected components
 def DFS_group(array, n, group_connected_components, group_number, actual):
     group_connected_components[actual] = group_number
     for new_x, new_y in neighbours(n, actual):
@@ -111,6 +111,58 @@ def connect():
     for index, actual in enumerate(group_a_b):
         new_tunels(groups, group_a_b, graph, n, actual, index)
     return Dijkstra_distance(graph, n**2, b, e)
+
+
+print(connect())
+
+
+# becouse on codeforces is Runtime error using my first alg. so i decided to reduce a bit complexity-> becouse I can maxial build one bridge, so result is min(A[i],B[j]), where A[i] is in beginning CC group and B[j] in edging vertex CC group
+# and Ofc. it pass all tests :)
+def connect():
+    n = int(input())
+    begining = [int(el) for el in input().split()]
+    b = (begining[0]-1)*n+begining[1]-1
+    end = [int(el) for el in input().split()]
+    e = (end[0]-1)*n + end[1]-1
+    array = [input() for _ in range(n)]
+
+    # for big N
+    counter = 0
+    for string in array:
+        for letter in string:
+            if letter == "1":
+                counter += 1
+    if counter <= 2:
+        return 0
+
+    groups = [None] * (n**2)
+    group_number = -1
+    for i in range(n**2):
+        if groups[i] == None and int(array[i//n][i % n]) != 1:
+            group_number += 1
+            DFS_group(array, n, groups, group_number, i)
+    if groups[e] == groups[b]:
+        return 0
+
+    A = []
+    B = []
+    for i in range(n**2):
+        if groups[i] == groups[b]:
+            A.append(i)
+        elif groups[i] == groups[e]:
+            B.append(i)
+
+    cheapest_tunel = float("inf")
+
+    for i in range(len(A)):
+        for j in range(len(B)):
+            cheapest_tunel = min(cheapest_tunel, distance(A[i], B[j], n))
+    return cheapest_tunel
+
+
+# complexity:
+# -time O(A*B) - > where A = number of elements withich beggining vertex in group, and B - number of elements withich ending vertex in group
+# -space O(V^2)
 
 
 print(connect())
