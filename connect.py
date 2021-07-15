@@ -26,8 +26,7 @@ def distance(a, b, n):
     return int((ax-bx)**2 + (ay-by)**2)
 
 
-# - to memorize, if is needed tunel between two fields- firstly I'll run DFS alg. to find all connected components
-
+#to memorize, if is needed tunel between two fields- firstly I'll run DFS alg. to find all connected components
 def DFS_group(array, n, group_connected_components, group_number, actual):
     group_connected_components[actual] = group_number
     for new_x, new_y in neighbours(n, actual):
@@ -51,7 +50,7 @@ def new_tunels(groups, group_a_b, tunels, n, actual, index):
             tunels[coord].append((actual, d))
 
 
-# Edge relaxing in Dijkstra algorithm
+# edge relaxing in Dijkstra algorithm
 def relax(distances, u, v, w):
     if distances[v] > distances[u]+w:
         distances[v] = distances[u]+w
@@ -83,7 +82,7 @@ def connect():
     begining = [int(el) for el in input().split()]
     b = (begining[0]-1)*n+begining[1]-1
     end = [int(el) for el in input().split()]
-    e = (end[0]-1)*n+ end[1]-1
+    e = (end[0]-1)*n + end[1]-1
     array = [input() for _ in range(n)]
 
     # numbering groups of connected components
@@ -115,4 +114,3 @@ def connect():
 
 
 print(connect())
-
