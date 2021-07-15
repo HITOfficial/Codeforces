@@ -8,8 +8,7 @@ from bisect import bisect_left
 # -space O(N)
 
 
-# somethink is wrong with tests second test on codeforces in template is good and answeris  with lower m, than on the submition tester
-
+# somethink is wrong with tests second test on codeforces in template is good and answer is with lower m, than on the submition tester
 
 def towers():
     space = [int(el) for el in input().split()]
